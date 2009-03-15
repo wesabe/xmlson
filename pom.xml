@@ -42,6 +42,12 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+	<developers>
+		<developer>
+			<name>Coda Hale</name>
+			<email>coda@wesabe.com</email>
+		</developer>
+	</developers>
 	<build>
 		<plugins>
 			<plugin>
