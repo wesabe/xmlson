@@ -8,7 +8,7 @@ Dude Did You Just Invent Your Own Object Notation What Is Wrong With You?
 -------------------------------------------------------------------------
 
 No way, man. XMLSON isn't an object notation -- it's a stuper-simple object
-model which you can use to produce stuper-simple JSON and stuper-simple JSON.
+model which you can use to produce stuper-simple JSON and stuper-simple XML.
 
 
 But Will It Support Like XSchemaNamespacey Local-URI Extension 23A.4FG?
@@ -89,7 +89,7 @@ And this XML:
         </ingredients>
     </recipe>
 
-None of these things suck to parse or deal with once parse.
+None of these things suck to parse or deal with once parsed.
 
 
 Well Ok Then I Suppose You Have Convinced Me Of The Merit Of This Thing
