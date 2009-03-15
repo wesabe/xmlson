@@ -3,7 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wesabe</groupId>
 	<artifactId>xmlson</artifactId>
-	<name>A simple JSON and XML serialization library.</name>
+	<name>XMLSON</name>
+	<description>A simple JSON and XML serialization library.</description>
 	<version>1.0</version>
 	<dependencies>
 		<dependency>
