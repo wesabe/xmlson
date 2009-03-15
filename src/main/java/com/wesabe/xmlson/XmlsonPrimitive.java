@@ -15,4 +15,21 @@ public abstract class XmlsonPrimitive<E> extends XmlsonElement {
 	 * @return the primitive value
 	 */
 	public abstract E getValue();
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof XmlsonPrimitive<?>) {
+			XmlsonPrimitive<?> that = (XmlsonPrimitive<?>) obj;
+			
+			return getValue().equals(that.getValue());
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return getValue().hashCode();
+	}
+	
 }

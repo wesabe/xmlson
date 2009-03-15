@@ -14,5 +14,14 @@ public class XmlsonNull extends XmlsonPrimitive<Object> {
 	public Object getValue() {
 		return null;
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof XmlsonNull;
+	}
+	
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
+	}
 }

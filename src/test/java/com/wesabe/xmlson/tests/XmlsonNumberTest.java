@@ -16,6 +16,26 @@ public class XmlsonNumberTest {
 			XmlsonNumber number = new XmlsonNumber(300);
 			assertEquals(Integer.valueOf(300), number.getValue());
 		}
+		
+		@Test
+		public void itEqualsOtherXmlsonIntegers() throws Exception {
+			XmlsonNumber a = new XmlsonNumber(300);
+			XmlsonNumber b = new XmlsonNumber(300);
+			assertTrue(a.equals(b));
+			assertTrue(a.hashCode() == b.hashCode());
+		}
+		
+		@Test
+		public void itDoesNotEqualNull() throws Exception {
+			XmlsonNumber a = new XmlsonNumber(300);
+			assertFalse(a.equals(null));
+		}
+		
+		@Test
+		public void itDoesNotEqualANonInteger() throws Exception {
+			XmlsonNumber a = new XmlsonNumber(300);
+			assertFalse(a.equals("woo"));
+		}
 	}
 	
 	public static class An_Xmlson_Float {
