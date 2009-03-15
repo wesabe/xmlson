@@ -109,7 +109,12 @@ public class XmlsonObject extends XmlsonMember {
 	 * @return {@code this}, for chaining purposes
 	 */
 	public XmlsonObject add(XmlsonMember member) {
+		if (member == this) {
+			throw new IllegalArgumentException("can't add member to itself");
+		}
+		
 		properties.put(new XmlsonString(member.getName()), member);
+		
 		return this;
 	}
 }

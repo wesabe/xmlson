@@ -149,4 +149,20 @@ public class XmlsonObjectTest {
 			assertSame(member, otherMember);
 		}
 	}
+	
+	public static class Adding_Itself_As_A_Member {
+		@Test
+		public void itThrowsAnException() throws Exception {
+			XmlsonObject object = new XmlsonObject("blah");
+			
+			boolean exceptionThrown = false;
+			try {
+				object.add(object);
+			} catch (IllegalArgumentException e) {
+				exceptionThrown = true;
+			}
+			
+			assertTrue("should have thrown an exception but didn't", exceptionThrown);
+		}
+	}
 }
