@@ -50,6 +50,7 @@
 		</developer>
 	</developers>
 	<build>
+		<defaultGoal>test</defaultGoal>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
