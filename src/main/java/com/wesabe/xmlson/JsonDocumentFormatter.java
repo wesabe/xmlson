@@ -1,6 +1,5 @@
 package com.wesabe.xmlson;
 
-import java.io.IOException;
 import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
@@ -19,7 +18,7 @@ public class JsonDocumentFormatter implements XmlsonDocumentFormatter {
 	 * @see com.wesabe.xmlson.XmlsonDocumentFormatter#format(com.wesabe.xmlson.XmlsonDocument)
 	 */
 	@Override
-	public String format(XmlsonDocument document) throws IOException {
+	public String format(XmlsonDocument document) {
 		JsonObject jsonDocument = serialize(document);
 		return jsonDocument.toString();
 	}

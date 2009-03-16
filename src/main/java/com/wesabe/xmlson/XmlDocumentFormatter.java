@@ -1,6 +1,5 @@
 package com.wesabe.xmlson;
 
-import java.io.IOException;
 import java.util.Map.Entry;
 
 import nu.xom.Attribute;
@@ -21,7 +20,7 @@ public class XmlDocumentFormatter implements XmlsonDocumentFormatter {
 	 * @see com.wesabe.xmlson.XmlsonDocumentFormatter#format(com.wesabe.xmlson.XmlsonDocument)
 	 */
 	@Override
-	public String format(XmlsonDocument document) throws IOException {
+	public String format(XmlsonDocument document) {
 		Document xmlDocument = serialize(document);
 		return xmlDocument.toXML();
 	}
