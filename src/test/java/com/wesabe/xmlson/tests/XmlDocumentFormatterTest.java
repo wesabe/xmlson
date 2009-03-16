@@ -2,8 +2,6 @@ package com.wesabe.xmlson.tests;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -16,7 +14,7 @@ import com.wesabe.xmlson.XmlsonObject;
 
 @RunWith(Enclosed.class)
 public class XmlDocumentFormatterTest {
-	private static String format(XmlsonDocument document) throws IOException {
+	private static String format(XmlsonDocument document) {
 		XmlsonDocumentFormatter formatter = new XmlDocumentFormatter();
 		return formatter.format(document);
 	}
