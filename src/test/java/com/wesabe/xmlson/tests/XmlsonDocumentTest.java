@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 
 import com.wesabe.xmlson.XmlsonDocument;
 import com.wesabe.xmlson.XmlsonObject;
+import com.wesabe.xmlson.XmlsonString;
 
 @RunWith(Enclosed.class)
 public class XmlsonDocumentTest {
@@ -19,9 +20,9 @@ public class XmlsonDocumentTest {
 		}
 		
 		@Test
-		public void itHasNoMembers() throws Exception {
+		public void itHasNoProperties() throws Exception {
 			XmlsonDocument document = new XmlsonDocument("blah");
-			assertTrue(document.getMembers().isEmpty());
+			assertTrue(document.getProperties().isEmpty());
 		}
 	}
 	
@@ -33,13 +34,13 @@ public class XmlsonDocumentTest {
 		}
 		
 		@Test
-		public void itAddsTheMemberToTheEndOfTheArray() throws Exception {
+		public void itAddsTheMemberToTheMap() throws Exception {
 			XmlsonDocument document = new XmlsonDocument("blah");
 			XmlsonObject object = new XmlsonObject("blee");
 			
 			document.add(object);
 			
-			assertSame(object, document.getMembers().get(document.getMembers().size() - 1));
+			assertSame(object, document.getProperties().get(new XmlsonString("blee")));
 		}
 	}
 }

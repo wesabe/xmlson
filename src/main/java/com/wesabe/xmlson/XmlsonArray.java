@@ -32,6 +32,8 @@ public class XmlsonArray extends XmlsonMember {
 	public XmlsonArray add(XmlsonMember member) {
 		if (member == this) {
 			throw new IllegalArgumentException("can't add member to itself");
+		} else if (member instanceof XmlsonDocument) {
+			throw new IllegalArgumentException("can't add an XmlsonDocument as a member");
 		}
 		
 		members.add(member);

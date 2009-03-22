@@ -48,6 +48,22 @@ public class XmlDocumentFormatterTest {
 		}
 	}
 	
+	public static class A_Document_With_Shallow_Properties {
+		@Test
+		public void itIsFormattedAsAHash() throws Exception {
+			XmlsonDocument document = new XmlsonDocument("root");
+			document.addProperty("key", "value");
+			assertEquals(
+				"<?xml version=\"1.0\"?>\n" +
+				"<root>" +
+					"<key>value</key>" +
+				"</root>" +
+				"\n",
+				format(document)
+			);
+		}
+	}
+	
 	public static class An_Object_With_A_String_Property {
 		@Test
 		public void itIsFormattedAsAnElementWithAStringProperty() throws Exception {

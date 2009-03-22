@@ -26,13 +26,7 @@ public class XmlDocumentFormatter implements XmlsonDocumentFormatter {
 	}
 
 	private Document serialize(XmlsonDocument document) {
-		Element root = new Element(document.getName());
-		
-		for (XmlsonMember member : document.getMembers()) {
-			root.appendChild(serialize(member));
-		}
-		
-		return new Document(root);
+		return new Document(serialize((XmlsonObject) document));
 	}
 
 	private Element serialize(XmlsonMember member) {

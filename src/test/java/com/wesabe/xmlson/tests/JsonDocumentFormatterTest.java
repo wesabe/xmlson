@@ -44,6 +44,15 @@ public class JsonDocumentFormatterTest {
 		}
 	}
 	
+	public static class A_Document_With_Shallow_Properties {
+		@Test
+		public void itIsFormattedAsAHash() throws Exception {
+			XmlsonDocument document = new XmlsonDocument("root");
+			document.addProperty("key", "value");
+			assertEquals("{\"key\":\"value\"}", format(document));
+		}
+	}
+	
 	public static class An_Object_With_A_String_Property {
 		@Test
 		public void itIsFormattedAsAHashWithAnObjectPropertyWithAStringProperty() throws Exception {

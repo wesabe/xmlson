@@ -23,16 +23,6 @@ public class JsonDocumentFormatter implements XmlsonDocumentFormatter {
 		return jsonDocument.toString();
 	}
 
-	private JsonObject serialize(XmlsonDocument document) {
-		JsonObject jsonDocument = new JsonObject();
-		
-		for (XmlsonMember member : document.getMembers()) {
-			jsonDocument.add(member.getName(), serialize(member));
-		}
-		
-		return jsonDocument;
-	}
-
 	private JsonElement serialize(XmlsonMember member) {
 		if (member instanceof XmlsonArray) {
 			return serialize((XmlsonArray) member);
