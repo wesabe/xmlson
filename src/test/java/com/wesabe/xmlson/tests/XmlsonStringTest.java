@@ -36,5 +36,11 @@ public class XmlsonStringTest {
 			XmlsonString a = new XmlsonString("woo");
 			assertFalse(a.equals("woo"));
 		}
+		
+		@Test
+		public void itEscapesWhitespaceCharacters() throws Exception {
+			XmlsonString string = new XmlsonString("bl\nah");
+			assertEquals("bl\\nah", string.getValue());
+		}
 	}
 }
