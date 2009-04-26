@@ -69,6 +69,22 @@ public class JsonDocumentFormatterTest {
 		}
 	}
 	
+	public static class An_Object_With_A_Multiline_String_Property {
+		@Test
+		public void itIsFormattedAsAHashWithAnObjectPropertyWithAnEncodedStringProperty() throws Exception {
+			XmlsonDocument document = new XmlsonDocument("root");
+			document.add(new XmlsonObject("object").addProperty("key", "value\nvalue"));
+			assertEquals(
+				"{" +
+					"\"object\":{" +
+						"\"key\":\"value\\nvalue\"" +
+					"}" +
+				"}",
+				format(document)
+			);
+		}
+	}
+	
 	public static class An_Object_With_A_Boolean_Property {
 		@Test
 		public void itIsFormattedAsAHashWithAnObjectPropertyWithABooleanProperty() throws Exception {
