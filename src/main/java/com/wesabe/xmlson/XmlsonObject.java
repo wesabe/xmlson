@@ -111,8 +111,6 @@ public class XmlsonObject extends XmlsonMember {
 	public XmlsonObject add(XmlsonMember member) {
 		if (member == this) {
 			throw new IllegalArgumentException("can't add member to itself");
-		} else if (member instanceof XmlsonDocument) {
-			throw new IllegalArgumentException("can't add an XmlsonDocument as a member");
 		}
 		
 		properties.put(new XmlsonString(member.getName()), member);

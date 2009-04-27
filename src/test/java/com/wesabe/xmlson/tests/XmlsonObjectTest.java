@@ -7,7 +7,6 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
 import com.wesabe.xmlson.XmlsonBoolean;
-import com.wesabe.xmlson.XmlsonDocument;
 import com.wesabe.xmlson.XmlsonNull;
 import com.wesabe.xmlson.XmlsonNumber;
 import com.wesabe.xmlson.XmlsonObject;
@@ -152,18 +151,15 @@ public class XmlsonObjectTest {
 	}
 	
 	public static class Adding_Itself_As_A_Member {
-		@Test(expected = IllegalArgumentException.class)
+		@Test
 		public void itThrowsAnException() throws Exception {
 			XmlsonObject object = new XmlsonObject("blah");
-			object.add(object);
-		}
-	}
-	
-	public static class Adding_A_Document_As_A_Member {
-		@Test(expected = IllegalArgumentException.class)
-		public void itThrowsAnException() throws Exception {
-			XmlsonObject object = new XmlsonObject("blah");
-			object.add(new XmlsonDocument("root"));
+			try {
+				object.add(object);
+				fail("should have thrown an IllegalArgumentException but didn't");
+			} catch (IllegalArgumentException e) {
+				assertEquals("can't add member to itself", e.getMessage());
+			}
 		}
 	}
 }
