@@ -1,15 +1,11 @@
 package com.wesabe.xmlson;
 
-import com.google.gson.JsonEscaper;
-
 /**
  * An XMLSON string.
  * 
  * @author coda
  */
-@SuppressWarnings("deprecation")
 public class XmlsonString extends XmlsonPrimitive<String> {
-	private static final JsonEscaper ESCAPER = new JsonEscaper(false);
 	private final String value;
 
 	/**
@@ -27,6 +23,6 @@ public class XmlsonString extends XmlsonPrimitive<String> {
 	 */
 	@Override
 	public String getValue() {
-		return ESCAPER.escapeJsonString(value);
+		return value;
 	}
 }

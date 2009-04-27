@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonEscaper;
 import com.google.gson.JsonObject;
 
 /**
@@ -14,8 +15,10 @@ import com.google.gson.JsonObject;
  * @author coda
  * @see <a href="http://json.org">JSON Documentation</a>
  */
+@SuppressWarnings("deprecation")
 public class JsonFormatter implements XmlsonFormatter {
 	private static final String UTF_8 = "UTF-8";
+	private static final JsonEscaper ESCAPER = new JsonEscaper(false);
 
 	@Override
 	public void format(XmlsonMember member, OutputStream output) throws IOException {
@@ -63,7 +66,7 @@ public class JsonFormatter implements XmlsonFormatter {
 			} else if (value instanceof XmlsonNull) {
 				json.addProperty(key, (String) null);
 			} else {
-				json.addProperty(key, ((XmlsonPrimitive<?>) value).getValue().toString());
+				json.addProperty(key, ESCAPER.escapeJsonString(((XmlsonPrimitive<?>) value).getValue().toString()));
 			}
 		}
 		

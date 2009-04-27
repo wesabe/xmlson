@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonEscaper;
 import com.google.gson.JsonObject;
 
 /**
@@ -12,7 +13,9 @@ import com.google.gson.JsonObject;
  * @author coda
  * @see <a href="http://json.org">JSON Documentation</a>
  */
+@SuppressWarnings("deprecation")
 public class JsonDocumentFormatter implements XmlsonDocumentFormatter {
+	private static final JsonEscaper ESCAPER = new JsonEscaper(false);
 	
 	/* (non-Javadoc)
 	 * @see com.wesabe.xmlson.XmlsonDocumentFormatter#format(com.wesabe.xmlson.XmlsonDocument)
@@ -59,7 +62,7 @@ public class JsonDocumentFormatter implements XmlsonDocumentFormatter {
 			} else if (value instanceof XmlsonNull) {
 				json.addProperty(key, (String) null);
 			} else {
-				json.addProperty(key, ((XmlsonPrimitive<?>) value).getValue().toString());
+				json.addProperty(key, ESCAPER.escapeJsonString(((XmlsonPrimitive<?>) value).getValue().toString()));
 			}
 		}
 		
