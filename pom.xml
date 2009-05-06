@@ -85,7 +85,7 @@
 	<distributionManagement>
 		<repository>
 			<id>wesabe-internal</id>
-			<url>scp://repo1.core/var/www/maven2</url>
+			<url>scp://repo.core/var/www/maven2</url>
 		</repository>
 	</distributionManagement>
 </project>
