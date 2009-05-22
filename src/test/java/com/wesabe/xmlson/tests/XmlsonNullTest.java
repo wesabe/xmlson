@@ -1,5 +1,6 @@
 package com.wesabe.xmlson.tests;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -13,28 +14,34 @@ public class XmlsonNullTest {
 	public static class An_Xmlson_Null {
 		@Test
 		public void itHasANullValue() throws Exception {
-			XmlsonNull nullValue = new XmlsonNull();
-			assertNull(nullValue.getValue());
+			final XmlsonNull nullValue = new XmlsonNull();
+			assertThat(nullValue.getValue(), is(nullValue()));
 		}
 		
 		@Test
 		public void itEqualsOtherXmlsonNulls() throws Exception {
-			XmlsonNull a = new XmlsonNull();
-			XmlsonNull b = new XmlsonNull();
-			assertTrue(a.equals(b));
-			assertTrue(a.hashCode() == b.hashCode());
+			final XmlsonNull a = new XmlsonNull();
+			final XmlsonNull b = new XmlsonNull();
+			assertThat(a.equals(b), is(true));
+			assertThat(b.hashCode(), is(a.hashCode()));
 		}
 		
 		@Test
 		public void itDoesNotEqualNull() throws Exception {
-			XmlsonNull a = new XmlsonNull();
-			assertFalse(a.equals(null));
+			final XmlsonNull a = new XmlsonNull();
+			assertThat(a.equals(null), is(false));
 		}
 		
 		@Test
 		public void itDoesNotEqualANonNull() throws Exception {
-			XmlsonNull a = new XmlsonNull();
-			assertFalse(a.equals("woo"));
+			final XmlsonNull a = new XmlsonNull();
+			assertThat(a.equals("woo"), is(false));
+		}
+		
+		@Test
+		public void itIsHumanReadable() throws Exception {
+			final XmlsonNull a = new XmlsonNull();
+			assertThat(a.toString(), is("null"));
 		}
 	}
 }

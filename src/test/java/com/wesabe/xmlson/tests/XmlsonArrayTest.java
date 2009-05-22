@@ -1,5 +1,6 @@
 package com.wesabe.xmlson.tests;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -23,6 +24,12 @@ public class XmlsonArrayTest {
 			XmlsonArray array = new XmlsonArray("blah");
 			assertTrue(array.getMembers().isEmpty());
 		}
+		
+		@Test
+		public void itIsHumanReadable() throws Exception {
+			final XmlsonArray array = new XmlsonArray("blah");
+			assertThat(array.toString(), is("{blah:[]}"));
+		}
 	}
 	
 	public static class Adding_A_Member {
@@ -40,6 +47,14 @@ public class XmlsonArrayTest {
 			array.add(object);
 			
 			assertSame(object, array.getMembers().get(array.getMembers().size() - 1));
+		}
+		
+		@Test
+		public void itIsHumanReadable() throws Exception {
+			final XmlsonArray array = new XmlsonArray("blah");
+			XmlsonObject object = new XmlsonObject("blee");
+			array.add(object);
+			assertThat(array.toString(), is("{blah:[{blee:{}}]}"));
 		}
 	}
 	

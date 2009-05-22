@@ -1,5 +1,6 @@
 package com.wesabe.xmlson.tests;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -26,6 +27,12 @@ public class XmlsonObjectTest {
 			XmlsonObject object = new XmlsonObject("blah");
 			assertTrue(object.getProperties().isEmpty());
 		}
+		
+		@Test
+		public void itIsHumanReadable() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			assertThat(object.toString(), is("{blah:{}}"));
+		}
 	}
 	
 	public static class Adding_A_String_Property {
@@ -42,6 +49,14 @@ public class XmlsonObjectTest {
 			
 			XmlsonString property = (XmlsonString) object.getProperties().get(new XmlsonString("blah"));
 			assertEquals("blee", property.getValue());
+		}
+		
+		@Test
+		public void itIsHumanReadable() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			object.addProperty("blah", "blee");
+			
+			assertThat(object.toString(), is("{blah:{blah=blee}}"));
 		}
 	}
 	

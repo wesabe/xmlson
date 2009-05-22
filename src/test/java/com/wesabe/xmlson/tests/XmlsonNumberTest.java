@@ -1,5 +1,6 @@
 package com.wesabe.xmlson.tests;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -13,36 +14,42 @@ public class XmlsonNumberTest {
 	public static class An_Xmlson_Integer {
 		@Test
 		public void itHasAnIntegerValue() throws Exception {
-			XmlsonNumber number = new XmlsonNumber(300);
-			assertEquals(Integer.valueOf(300), number.getValue());
+			final XmlsonNumber number = new XmlsonNumber(300);
+			assertThat(number.getValue(), is((Number) 300));
 		}
 		
 		@Test
 		public void itEqualsOtherXmlsonIntegers() throws Exception {
-			XmlsonNumber a = new XmlsonNumber(300);
-			XmlsonNumber b = new XmlsonNumber(300);
-			assertTrue(a.equals(b));
-			assertTrue(a.hashCode() == b.hashCode());
+			final XmlsonNumber a = new XmlsonNumber(300);
+			final XmlsonNumber b = new XmlsonNumber(300);
+			assertThat(a.equals(b), is(true));
+			assertThat(b.hashCode(), is(a.hashCode()));
 		}
 		
 		@Test
 		public void itDoesNotEqualNull() throws Exception {
-			XmlsonNumber a = new XmlsonNumber(300);
-			assertFalse(a.equals(null));
+			final XmlsonNumber a = new XmlsonNumber(300);
+			assertThat(a.equals(null), is(false));
 		}
 		
 		@Test
 		public void itDoesNotEqualANonInteger() throws Exception {
-			XmlsonNumber a = new XmlsonNumber(300);
-			assertFalse(a.equals("woo"));
+			final XmlsonNumber a = new XmlsonNumber(300);
+			assertThat(a.equals("woo"), is(false));
+		}
+		
+		@Test
+		public void itIsHumanReadable() throws Exception {
+			final XmlsonNumber a = new XmlsonNumber(300);
+			assertThat(a.toString(), is("300"));
 		}
 	}
 	
 	public static class An_Xmlson_Float {
 		@Test
 		public void itHasAnFloatValue() throws Exception {
-			XmlsonNumber number = new XmlsonNumber(30.2);
-			assertEquals(Double.valueOf(30.2), number.getValue());
+			final XmlsonNumber number = new XmlsonNumber(30.2);
+			assertThat(number.getValue(), is((Number) 30.2));
 		}
 	}
 }

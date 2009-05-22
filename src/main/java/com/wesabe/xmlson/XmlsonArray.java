@@ -46,4 +46,9 @@ public class XmlsonArray extends XmlsonMember {
 	public List<XmlsonMember> getMembers() {
 		return Collections.unmodifiableList(members);
 	}
+	
+	@Override
+	public String toString() {
+		return "{" + getName() + ":" + members + "}";
+	}
 }

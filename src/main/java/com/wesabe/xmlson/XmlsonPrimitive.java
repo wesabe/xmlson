@@ -32,4 +32,8 @@ public abstract class XmlsonPrimitive<E> extends XmlsonElement {
 		return getValue().hashCode();
 	}
 	
+	@Override
+	public String toString() {
+		return getValue().toString();
+	}
 }

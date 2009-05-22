@@ -117,4 +117,9 @@ public class XmlsonObject extends XmlsonMember {
 		
 		return this;
 	}
+
+	@Override
+	public String toString() {
+		return "{" + getName() + ":" + properties + "}";
+	}
 }

@@ -1,5 +1,6 @@
 package com.wesabe.xmlson.tests;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -13,28 +14,35 @@ public class XmlsonBooleanTest {
 	public static class An_Xmlson_Boolean {
 		@Test
 		public void itHasABooleanValue() throws Exception {
-			XmlsonBoolean bool = new XmlsonBoolean(false);
-			assertFalse(bool.getValue());
+			final XmlsonBoolean bool = new XmlsonBoolean(false);
+			assertThat(bool.getValue(), is(false));
 		}
 		
 		@Test
 		public void itEqualsOtherXmlsonBooleans() throws Exception {
-			XmlsonBoolean a = new XmlsonBoolean(false);
-			XmlsonBoolean b = new XmlsonBoolean(false);
-			assertTrue(a.equals(b));
-			assertTrue(a.hashCode() == b.hashCode());
+			final XmlsonBoolean a = new XmlsonBoolean(false);
+			final XmlsonBoolean b = new XmlsonBoolean(false);
+			assertThat(a.equals(b), is(true));
+			assertThat(b.hashCode(), is(a.hashCode()));
 		}
 		
 		@Test
 		public void itDoesNotEqualNull() throws Exception {
-			XmlsonBoolean a = new XmlsonBoolean(false);
-			assertFalse(a.equals(null));
+			final XmlsonBoolean a = new XmlsonBoolean(false);
+			assertThat(a.equals(null), is(false));
 		}
 		
 		@Test
 		public void itDoesNotEqualANonBoolean() throws Exception {
-			XmlsonBoolean a = new XmlsonBoolean(false);
-			assertFalse(a.equals(200));
+			final XmlsonBoolean a = new XmlsonBoolean(false);
+			assertThat(a.equals(200), is(false));
+		}
+		
+		@Test
+		public void itIsHumanReadable() throws Exception {
+			final XmlsonBoolean a = new XmlsonBoolean(false);
+			assertThat(a.toString(), is("false"));
 		}
 	}
 }
+
