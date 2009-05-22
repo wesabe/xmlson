@@ -8,6 +8,7 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
 import com.wesabe.xmlson.XmlsonBoolean;
+import com.wesabe.xmlson.XmlsonElement;
 import com.wesabe.xmlson.XmlsonNull;
 import com.wesabe.xmlson.XmlsonNumber;
 import com.wesabe.xmlson.XmlsonObject;
@@ -57,6 +58,14 @@ public class XmlsonObjectTest {
 			object.addProperty("blah", "blee");
 			
 			assertThat(object.toString(), is("{blah:{blah=blee}}"));
+		}
+		
+		@Test
+		public void itIsRetrievable() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			object.addProperty("blah", "blee");
+			
+			assertThat(object.get("blah"), is((XmlsonElement) new XmlsonString("blee")));
 		}
 	}
 	

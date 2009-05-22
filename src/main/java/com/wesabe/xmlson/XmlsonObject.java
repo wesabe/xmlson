@@ -122,4 +122,14 @@ public class XmlsonObject extends XmlsonMember {
 	public String toString() {
 		return "{" + getName() + ":" + properties + "}";
 	}
+
+	/**
+	 * Returns the property or member with the given key.
+	 * 
+	 * @param key the property's key or member's name
+	 * @return the property or member
+	 */
+	public XmlsonElement get(String key) {
+		return properties.get(new XmlsonString(key));
+	}
 }
