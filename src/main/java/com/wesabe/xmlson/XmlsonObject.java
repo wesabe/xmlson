@@ -132,4 +132,64 @@ public class XmlsonObject extends XmlsonMember {
 	public XmlsonElement get(String key) {
 		return properties.get(new XmlsonString(key));
 	}
+	
+	/**
+	 * Returns the property with the given key as a {@link String}.
+	 * 
+	 * @param key the property's key
+	 * @return the property as a string
+	 * @throws ClassCastException if the property is not a string
+	 */
+	public String getString(String key) {
+		final XmlsonElement element = get(key);
+		if (element instanceof XmlsonNull) {
+			return null;
+		}
+		return ((XmlsonString) element).getValue();
+	}
+	
+	/**
+	 * Returns the property with the given key as an {@link Integer}.
+	 * 
+	 * @param key the property's key
+	 * @return the property as an integer
+	 * @throws ClassCastException if the property is not an integer
+	 */
+	public Integer getInteger(String key) {
+		final XmlsonElement element = get(key);
+		if (element instanceof XmlsonNull) {
+			return null;
+		}
+		return (Integer) ((XmlsonNumber) element).getValue();
+	}
+	
+	/**
+	 * Returns the property with the given key as a {@link Double}.
+	 * 
+	 * @param key the property's key
+	 * @return the property as a double
+	 * @throws ClassCastException if the property is not a double
+	 */
+	public Double getDouble(String key) {
+		final XmlsonElement element = get(key);
+		if (element instanceof XmlsonNull) {
+			return null;
+		}
+		return (Double) ((XmlsonNumber) element).getValue();
+	}
+	
+	/**
+	 * Returns the property with the given key as a {@link Boolean}.
+	 * 
+	 * @param key the property's key
+	 * @return the property as a boolean
+	 * @throws ClassCastException if the property is not a boolean
+	 */
+	public Boolean getBoolean(String key) {
+		final XmlsonElement element = get(key);
+		if (element instanceof XmlsonNull) {
+			return null;
+		}
+		return ((XmlsonBoolean) element).getValue();
+	}
 }

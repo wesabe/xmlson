@@ -8,7 +8,6 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
 import com.wesabe.xmlson.XmlsonBoolean;
-import com.wesabe.xmlson.XmlsonElement;
 import com.wesabe.xmlson.XmlsonNull;
 import com.wesabe.xmlson.XmlsonNumber;
 import com.wesabe.xmlson.XmlsonObject;
@@ -61,11 +60,11 @@ public class XmlsonObjectTest {
 		}
 		
 		@Test
-		public void itIsRetrievable() throws Exception {
+		public void itIsRetrievableAsAString() throws Exception {
 			final XmlsonObject object = new XmlsonObject("blah");
 			object.addProperty("blah", "blee");
 			
-			assertThat(object.get("blah"), is((XmlsonElement) new XmlsonString("blee")));
+			assertThat(object.getString("blah"), is("blee"));
 		}
 	}
 	
@@ -73,11 +72,18 @@ public class XmlsonObjectTest {
 		@Test
 		public void itAddsThePropertyToThePropertiesMap() throws Exception {
 			XmlsonObject object = new XmlsonObject("blah");
-			String blee = null;
-			object.addProperty("blah", blee);
+			object.addProperty("blah", (String) null);
 			
 			XmlsonNull property = (XmlsonNull) object.getProperties().get(new XmlsonString("blah"));
 			assertNull(property.getValue());
+		}
+		
+		@Test
+		public void itIsRetrievableAsANullString() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			object.addProperty("blah", (String) null);
+			
+			assertThat(object.getString("blah"), is(nullValue()));
 		}
 	}
 	
@@ -96,6 +102,22 @@ public class XmlsonObjectTest {
 			XmlsonNumber property = (XmlsonNumber) object.getProperties().get(new XmlsonString("blah"));
 			assertEquals(100, property.getValue());
 		}
+		
+		@Test
+		public void itIsRetrievableAsAnInteger() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			object.addProperty("blah", 200);
+			
+			assertThat(object.getInteger("blah"), is(200));
+		}
+		
+		@Test
+		public void itIsRetrievableAsADouble() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			object.addProperty("blah", 200.0);
+			
+			assertThat(object.getDouble("blah"), is(200.0));
+		}
 	}
 	
 	public static class Adding_A_Null_Number_Property {
@@ -107,6 +129,22 @@ public class XmlsonObjectTest {
 			
 			XmlsonNull property = (XmlsonNull) object.getProperties().get(new XmlsonString("blah"));
 			assertNull(property.getValue());
+		}
+		
+		@Test
+		public void itIsRetrievableAsAnInteger() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			object.addProperty("blah", (Integer) null);
+			
+			assertThat(object.getInteger("blah"), is(nullValue()));
+		}
+		
+		@Test
+		public void itIsRetrievableAsADouble() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			object.addProperty("blah", (Double) null);
+			
+			assertThat(object.getDouble("blah"), is(nullValue()));
 		}
 	}
 	
@@ -125,6 +163,14 @@ public class XmlsonObjectTest {
 			XmlsonBoolean property = (XmlsonBoolean) object.getProperties().get(new XmlsonString("blah"));
 			assertEquals(false, property.getValue());
 		}
+		
+		@Test
+		public void itIsRetrievableAsABoolean() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			object.addProperty("blah", true);
+			
+			assertThat(object.getBoolean("blah"), is(true));
+		}
 	}
 	
 	public static class Adding_A_Null_Boolean_Property {
@@ -136,6 +182,14 @@ public class XmlsonObjectTest {
 			
 			XmlsonNull property = (XmlsonNull) object.getProperties().get(new XmlsonString("blah"));
 			assertNull(property.getValue());
+		}
+		
+		@Test
+		public void itIsRetrievableAsABoolean() throws Exception {
+			final XmlsonObject object = new XmlsonObject("blah");
+			object.addProperty("blah", (Boolean) null);
+			
+			assertThat(object.getBoolean("blah"), is(nullValue()));
 		}
 	}
 	
