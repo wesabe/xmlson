@@ -1,13 +1,15 @@
 package com.wesabe.xmlson;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.Map.Entry;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonEscaper;
-import com.google.gson.JsonObject;
+import org.codehaus.jackson.JsonEncoding;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonGenerator;
 
 /**
  * A class which formats {@link XmlsonMember}s as JSON.
@@ -15,61 +17,77 @@ import com.google.gson.JsonObject;
  * @author coda
  * @see <a href="http://json.org">JSON Documentation</a>
  */
-@SuppressWarnings("deprecation")
 public class JsonFormatter implements XmlsonFormatter {
-	private static final String UTF_8 = "UTF-8";
-	private static final JsonEscaper ESCAPER = new JsonEscaper(false);
+	// TODO coda@wesabe.com -- Mar 14, 2009: reduce the number of branches in JsonFormatter
+	
+	private static final JsonFactory FACTORY = new JsonFactory();
 
 	@Override
 	public void format(XmlsonMember member, OutputStream output) throws IOException {
-		output.write(format(member).getBytes(UTF_8));
+		final JsonGenerator generator = FACTORY.createJsonGenerator(output, JsonEncoding.UTF8);
+		serialize(generator, member);
+		generator.close();
 	}
-
+	
 	@Override
 	public String format(XmlsonMember member) {
-		return serialize(member).toString();
-	}
-	
-	private JsonElement serialize(XmlsonMember member) {
+		try {
+			final ByteArrayOutputStream output = new ByteArrayOutputStream();
+			format(member, output);
+			return output.toString();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+ 	}
+
+	private void serialize(JsonGenerator generator, XmlsonMember member) throws IOException {
 		if (member instanceof XmlsonArray) {
-			return serialize((XmlsonArray) member);
+			serialize(generator, (XmlsonArray) member);
+		} else if (member instanceof XmlsonObject) {
+			serialize(generator, (XmlsonObject) member);
 		}
-		
-		return serialize((XmlsonObject) member);
-	}
-	
-	private JsonArray serialize(XmlsonArray array) {
-		JsonArray json = new JsonArray();
-		
-		for (XmlsonMember member : array.getMembers()) {
-			json.add(serialize(member));
-		}
-		
-		return json;
 	}
 
-	private JsonObject serialize(XmlsonObject object) {
-		JsonObject json = new JsonObject();
-		
-		// TODO coda@wesabe.com -- Mar 14, 2009: reduce the number of branches in JsonFormatter
-		
+	private void serialize(JsonGenerator generator, final XmlsonObject object) throws IOException,
+			JsonGenerationException {
+		generator.writeStartObject();
 		for (Entry<XmlsonString, XmlsonElement> property : object.getProperties().entrySet()) {
 			final String key = property.getKey().getValue();
 			final XmlsonElement value = property.getValue();
-			
+
 			if (value instanceof XmlsonMember) {
-				json.add(key, serialize((XmlsonMember) value));
+				generator.writeFieldName(key);
+				serialize(generator, (XmlsonMember) value);
 			} else if (value instanceof XmlsonNumber) {
-				json.addProperty(key, ((XmlsonNumber) value).getValue());
+				final Number number = ((XmlsonNumber) value).getValue();
+				if (number instanceof Integer) {
+					generator.writeNumberField(key, (Integer) number);
+				} else if (number instanceof Long) {
+					generator.writeNumberField(key, (Long) number);
+				} else if (number instanceof Double) {
+					generator.writeNumberField(key, (Double) number);
+				} else if (number instanceof Float) {
+					generator.writeNumberField(key, (Float) number);
+				} else if (number instanceof BigDecimal) {
+					generator.writeNumberField(key, (BigDecimal) number);
+				}
 			} else if (value instanceof XmlsonBoolean) {
-				json.addProperty(key, ((XmlsonBoolean) value).getValue());
+				generator.writeBooleanField(key, ((XmlsonBoolean) value).getValue());
 			} else if (value instanceof XmlsonNull) {
-				json.addProperty(key, (String) null);
+				generator.writeNullField(key);
 			} else {
-				json.addProperty(key, ESCAPER.escapeJsonString(((XmlsonPrimitive<?>) value).getValue().toString()));
+				generator.writeStringField(key, ((XmlsonString) value).getValue());
 			}
 		}
-		
-		return json;
+		generator.writeEndObject();
+	}
+
+	private void serialize(JsonGenerator generator, final XmlsonArray array) throws IOException,
+			JsonGenerationException {
+		generator.writeStartArray();
+		for (XmlsonMember member : array.getMembers()) {
+			serialize(generator, member);
+		}
+		generator.writeEndArray();
 	}
 }

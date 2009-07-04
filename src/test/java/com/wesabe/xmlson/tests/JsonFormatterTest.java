@@ -2,6 +2,8 @@ package com.wesabe.xmlson.tests;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -85,13 +87,65 @@ public class JsonFormatterTest {
 		}
 	}
 	
-	public static class An_Object_With_A_Numeric_Property {
+	public static class An_Object_With_An_Integer_Property {
 		@Test
 		public void itIsFormattedAsAJsonObjectWithAProperty() throws Exception {
 			final XmlsonObject object = new XmlsonObject("object").addProperty("key", 100);
 			assertEquals(
 				"{" +
 					"\"key\":100" +
+				"}",
+				format(object)
+			);
+		}
+	}
+	
+	public static class An_Object_With_A_Long_Property {
+		@Test
+		public void itIsFormattedAsAJsonObjectWithAProperty() throws Exception {
+			final XmlsonObject object = new XmlsonObject("object").addProperty("key", 100L);
+			assertEquals(
+				"{" +
+					"\"key\":100" +
+				"}",
+				format(object)
+			);
+		}
+	}
+	
+	public static class An_Object_With_A_Float_Property {
+		@Test
+		public void itIsFormattedAsAJsonObjectWithAProperty() throws Exception {
+			final XmlsonObject object = new XmlsonObject("object").addProperty("key", 20.3F);
+			assertEquals(
+				"{" +
+					"\"key\":20.3" +
+				"}",
+				format(object)
+			);
+		}
+	}
+	
+	public static class An_Object_With_A_Double_Property {
+		@Test
+		public void itIsFormattedAsAJsonObjectWithAProperty() throws Exception {
+			final XmlsonObject object = new XmlsonObject("object").addProperty("key", 20.3);
+			assertEquals(
+				"{" +
+					"\"key\":20.3" +
+				"}",
+				format(object)
+			);
+		}
+	}
+	
+	public static class An_Object_With_A_BigDecimal_Property {
+		@Test
+		public void itIsFormattedAsAJsonObjectWithAProperty() throws Exception {
+			final XmlsonObject object = new XmlsonObject("object").addProperty("key", new BigDecimal("20.3"));
+			assertEquals(
+				"{" +
+					"\"key\":20.3" +
 				"}",
 				format(object)
 			);
