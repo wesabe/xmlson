@@ -5,12 +5,12 @@
 	<artifactId>xmlson</artifactId>
 	<name>XMLSON</name>
 	<description>A simple JSON and XML serialization library.</description>
-	<version>1.4.0</version>
+	<version>1.5.0</version>
 	<packaging>jar</packaging>
 	<repositories>
 		<repository>
 			<id>jackson-repo</id>
-			<url>http://repository.codehaus.org/org/codehaus/jackson/</url>
+			<url>http://repository.codehaus.org/</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -26,27 +26,9 @@
 			<version>1.1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>xom</groupId>
-			<artifactId>xom</artifactId>
-			<version>1.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>jaxen</groupId>
-					<artifactId>jaxen</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>xalan</groupId>
-					<artifactId>xalan</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>xerces</groupId>
-					<artifactId>xercesImpl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>xerces</groupId>
-					<artifactId>xmlParserAPIs</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>woodstox-core-asl</artifactId>
+			<version>4.0.5</version>
 		</dependency>
 	</dependencies>
 	<developers>
@@ -61,6 +43,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -70,6 +53,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.3</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 				</configuration>
@@ -77,6 +61,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1</version>
 				<executions>
 					<execution>
 						<phase>package</phase>

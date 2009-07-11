@@ -1,14 +1,15 @@
 package com.wesabe.xmlson;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map.Entry;
 
-import nu.xom.Attribute;
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Text;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+
+import com.ctc.wstx.api.WstxOutputProperties;
 
 /**
  * A class which formats {@link XmlsonMember}s as XML.
@@ -17,70 +18,70 @@ import nu.xom.Text;
  * @see <a href="http://xml.org">XML Documentation</a>
  */
 public class XmlFormatter implements XmlsonFormatter {
-	private static final String UTF_8 = "UTF-8";
+	private static final String NULL_PROPERTY_ATTRIBUTE = "null";
 
 	@Override
 	public void format(XmlsonMember member, OutputStream output) throws IOException {
-		output.write(format(member).getBytes(UTF_8));
+		final XMLOutputFactory xof = XMLOutputFactory.newInstance();
+		xof.setProperty(WstxOutputProperties.P_OUTPUT_VALIDATE_CONTENT, true);
+		try {
+			final XMLStreamWriter writer = xof.createXMLStreamWriter(output);
+			writer.writeStartDocument();
+			serializeMember(writer, member);
+			writer.writeEndDocument();
+		} catch (XMLStreamException e) {
+			throw new IOException(e);
+		}
 	}
 
 	@Override
 	public String format(XmlsonMember member) {
-		final Document document = new Document(serialize(member));
-		return document.toXML();
+		try {
+			final ByteArrayOutputStream output = new ByteArrayOutputStream();
+			format(member, output);
+			output.close();
+			return output.toString();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	private Element serialize(XmlsonMember member) {
+	private void serializeMember(XMLStreamWriter writer, XmlsonMember member) throws XMLStreamException {
 		if (member instanceof XmlsonArray) {
-			return serialize((XmlsonArray) member);
+			serializeArray(writer, (XmlsonArray) member);
+		} else {
+			serializeObject(writer, (XmlsonObject) member);
 		}
-		
-		return serialize((XmlsonObject) member);
 	}
 	
-	private Element serialize(XmlsonArray array) {
-		Element element = new Element(array.getName());
-		
+	private void serializeArray(XMLStreamWriter writer, XmlsonArray array) throws XMLStreamException {
+		writer.writeStartElement(array.getName());
 		for (XmlsonMember member : array.getMembers()) {
-			element.appendChild(serialize(member));
+			serializeMember(writer, member);
 		}
-		
-		return element;
+		writer.writeEndElement();
 	}
 	
-	private Element serialize(XmlsonObject object) {
-		Element element = new Element(object.getName());
-		
+	private void serializeObject(XMLStreamWriter writer, XmlsonObject object) throws XMLStreamException {
+		writer.writeStartElement(object.getName());
 		for (Entry<XmlsonString, XmlsonElement> property : object.getProperties().entrySet()) {
-			XmlsonElement value = property.getValue();
+			final XmlsonElement value = property.getValue();
 			if (value instanceof XmlsonPrimitive<?>) {
-				Element propertyElement = new Element(serialize(property.getKey()));
-				Node node = serialize(property.getValue());
-				if (node == null) {
-					propertyElement.addAttribute(new Attribute("null", "true"));
-				} else {
-					propertyElement.appendChild(node);
-				}
-
-				element.appendChild(propertyElement);
+				serializeProperty(writer, property.getKey(), (XmlsonPrimitive<?>) value);
 			} else {
-				element.appendChild(serialize((XmlsonMember) value));
+				serializeMember(writer, (XmlsonMember) value);
 			}
-
 		}
-		
-		return element;
+		writer.writeEndElement();
 	}
 
-	private Node serialize(XmlsonElement element) {
-		if (element instanceof XmlsonNull) {
-			return null;
+	private void serializeProperty(XMLStreamWriter writer, XmlsonString key, XmlsonPrimitive<?> value) throws XMLStreamException {
+		writer.writeStartElement(key.getValue());
+		if (value instanceof XmlsonNull) {
+			writer.writeAttribute(NULL_PROPERTY_ATTRIBUTE, Boolean.TRUE.toString());
+		} else {
+			writer.writeCharacters(value.getValue().toString());
 		}
-		
-		return new Text(serialize((XmlsonPrimitive<?>) element));
-	}
-
-	private String serialize(XmlsonPrimitive<?> primitive) {
-		return primitive.getValue().toString();
+		writer.writeEndElement();
 	}
 }
