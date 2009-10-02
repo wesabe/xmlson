@@ -61,6 +61,20 @@ public class JsonFormatterTest {
 		}
 	}
 	
+	public static class An_Object_With_A_Unicode_String_Property {
+		@Test
+		public void itIsFormattedAsAJsonObjectWithAProperty() throws Exception {
+			final XmlsonObject object = new XmlsonObject("object").addProperty("key", "value あ");
+			
+			assertEquals(
+				"{" +
+					"\"key\":\"value あ\"" +
+				"}",
+				format(object)
+			);
+		}
+	}
+	
 	public static class An_Object_With_A_Multiline_String_Property {
 		@Test
 		public void itIsFormattedAsAJsonObjectWithAProperty() throws Exception {

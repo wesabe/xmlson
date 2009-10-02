@@ -34,7 +34,7 @@ public class JsonFormatter implements XmlsonFormatter {
 		try {
 			final ByteArrayOutputStream output = new ByteArrayOutputStream();
 			format(member, output);
-			return output.toString();
+			return output.toString("UTF-8");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
